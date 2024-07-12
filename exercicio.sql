@@ -104,17 +104,3 @@ ORDER BY b.Data_Avaliacao DESC, Nota DESC
 
 -- 10.Altere o nome da coluna data_nasc para data_nascimento na tabela funcionarios e selecione todos os funcionários que nasceram após '1990-01-01'.
 
-ALTER TABLE Notas
-ADD COLUMN Data_Avaliacao_JuliandayData DATE 
-;
-
-UPDATE Notas
-SET Data_Avaliacao_JuliandayData = 
-
-(SUBSTR(Data_Avaliacao, -4)) ||"-"||
-(TRIM(("0" || SUBSTR(Data_Avaliacao, 1, INSTR(Data_Avaliacao,"/")-1)), "/")) ||"-"||
-(CASE
-    WHEN LENGTH(TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")) = 3
-        THEN SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))
-    ELSE TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")
-END)
