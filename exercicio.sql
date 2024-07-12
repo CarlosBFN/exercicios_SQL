@@ -94,13 +94,51 @@ FROM Notas b
 GROUP BY b.Data_Avaliacao, a.Nome_Disciplina, b.Nota
 ORDER BY b.Data_Avaliacao DESC, Nota DESC
 
--- 8.Converta a coluna data_string da tabela eventos, que está em formato de texto (YYYY-MM-DD), para o tipo de data e selecione todos os eventos após '2023-01-01'.
+-- 8.Converta a coluna data_string da tabela eventos (avaliações), que está em formato de texto (YYYY-MM-DD), para o tipo de data e selecione todos os eventos após '2023-01-01' ('2023-08-01').
 
+WITH
+Base AS(
+    SELECT
+        a.Nome_Disciplina
+        ,(
+        (SUBSTR(Data_Avaliacao, -4)) ||"-"||
+        (TRIM(("0" || SUBSTR(Data_Avaliacao, 1, INSTR(Data_Avaliacao,"/")-1)), "/")) ||"-"||
+        (CASE
+            WHEN LENGTH(TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")) = 3
+                THEN SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))
+            ELSE TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")
+        END)
+        ) AS Data_Avaliacao
+        
+    FROM Notas b
+        LEFT JOIN Disciplinas a
+            ON b.ID_Disciplina = a.ID_Disciplina
+)
 
+SELECT DISTINCT *
+FROM Base
+WHERE Data_Avaliacao > "2023-08-01"
+    
 
--- 9.Na tabela avaliacoes, classifique cada avaliação como 'Boa', 'Média', ou 'Ruim' com base na pontuação: 1-3 para 'Ruim', 4-7 para 'Média', e 8-10 para 'Boa'.
+-- 9.Na tabela avaliações (Notas), classifique cada avaliação como 'Boa', 'Média', ou 'Ruim' com base na pontuação: 1-3 para 'Ruim', 4-7 para 'Média', e 8-10 para 'Boa'.
 
-
+SELECT
+    b.Data_Avaliacao
+    ,a.Nome_Disciplina
+    ,b.Nota
+    ,CASE  
+        WHEN b.Nota <= 3 THEN "Ruim"
+        WHEN b.Nota >= 8 THEN "Boa"
+        ELSE "Média"
+    END AS Avaliacao
+    ,CASE  
+        WHEN b.Nota >= 7 THEN "Aprovado"
+        ELSE "Reprovado"
+    END AS Aprovacao
+FROM Notas b
+    LEFT JOIN Disciplinas a
+        ON b.ID_Disciplina = a.ID_Disciplina
+ORDER BY b.Data_Avaliacao DESC, Nota DESC
 
 -- 10.Altere o nome da coluna data_nasc para data_nascimento na tabela funcionarios e selecione todos os funcionários que nasceram após '1990-01-01'.
 
