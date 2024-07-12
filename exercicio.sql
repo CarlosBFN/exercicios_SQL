@@ -1,4 +1,26 @@
--- Exercícios
+-- Exercício 1
+
+-- Preparação da base
+
+/*
+-- Criei uma nova coluna chamada "Data_Avaliacao_Julianday" para ter uma data no formato padrão para a tabela Notas, o que utilizei em mais de um dos exercícios.
+-- Comentei todo o trecho para que novas alterações na tabela não fossem feitas por acaso.
+
+ALTER TABLE Notas
+ADD COLUMN Data_Avaliacao_Julianday DATE 
+;
+
+UPDATE Notas
+SET Data_Avaliacao_Julianday = 
+
+(SUBSTR(Data_Avaliacao, -4)) ||"-"||
+(TRIM(("0" || SUBSTR(Data_Avaliacao, 1, INSTR(Data_Avaliacao,"/")-1)), "/")) ||"-"||
+(CASE
+    WHEN LENGTH(TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")) = 3
+        THEN SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))
+    ELSE TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")
+END)
+*/
 
 -- 1.Selecione os primeiros 5 registros da tabela clientes (Alunos), ordenando-os pelo nome em ordem crescente.
 
@@ -51,33 +73,26 @@ FROM Alunos
 
 -- 6.Para cada venda (nota) na tabela vendas, exiba o ID da venda, a data da venda e a diferença em dias entre a data da venda e a data atual.
 
-WITH
-BASE AS(
-    SELECT 
-        ID_Nota
-        ,Data_Avaliacao
-        ,SUBSTR(Data_Avaliacao, -4) AS Ano_Avaliacao_Julianday
-        ,TRIM(("0" || SUBSTR(Data_Avaliacao, 1, INSTR(Data_Avaliacao,"/")-1)), "/") AS Mes_Avaliacao_Julianday
-        ,CASE
-            WHEN LENGTH(TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")) = 3
-                THEN SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))
-            ELSE TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")
-        END AS Dia_Avaliacao_Julianday
-    FROM Notas
-)
-
 SELECT 
     ID_Nota
     ,Data_Avaliacao
-    ,Ano_Avaliacao_Julianday ||"-"|| Mes_Avaliacao_Julianday ||"-"|| Dia_Avaliacao_Julianday AS Data_Avaliacao_Julianday
+    ,Data_Avaliacao_Julianday
     ,CURRENT_DATE AS Data_Atual
-    ,CAST(JULIANDAY(CURRENT_DATE) - JULIANDAY(Ano_Avaliacao_Julianday ||"-"|| Mes_Avaliacao_Julianday ||"-"|| Dia_Avaliacao_Julianday) AS INTEGER) AS Dias_Decorridos
-FROM BASE
+    ,CAST(JULIANDAY(CURRENT_DATE) - JULIANDAY(Data_Avaliacao_Julianday) AS INTEGER) AS Dias_Decorridos
+FROM Notas
 ;
 
--- 7.Selecione todos os itens da tabela pedidos e arredonde o preço total para o número inteiro mais próximo.
+-- 7.Selecione todos os itens da tabela pedidos (notas) e arredonde o preço total para o número inteiro mais próximo.
 
-
+SELECT
+    b.Data_Avaliacao
+    ,a.Nome_Disciplina
+    ,ROUND(b.Nota, 0) AS Nota
+FROM Notas b
+    LEFT JOIN Disciplinas a
+        ON b.ID_Disciplina = a.ID_Disciplina
+GROUP BY b.Data_Avaliacao, a.Nome_Disciplina, b.Nota
+ORDER BY b.Data_Avaliacao DESC, Nota DESC
 
 -- 8.Converta a coluna data_string da tabela eventos, que está em formato de texto (YYYY-MM-DD), para o tipo de data e selecione todos os eventos após '2023-01-01'.
 
@@ -88,3 +103,18 @@ FROM BASE
 
 
 -- 10.Altere o nome da coluna data_nasc para data_nascimento na tabela funcionarios e selecione todos os funcionários que nasceram após '1990-01-01'.
+
+ALTER TABLE Notas
+ADD COLUMN Data_Avaliacao_JuliandayData DATE 
+;
+
+UPDATE Notas
+SET Data_Avaliacao_JuliandayData = 
+
+(SUBSTR(Data_Avaliacao, -4)) ||"-"||
+(TRIM(("0" || SUBSTR(Data_Avaliacao, 1, INSTR(Data_Avaliacao,"/")-1)), "/")) ||"-"||
+(CASE
+    WHEN LENGTH(TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")) = 3
+        THEN SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))
+    ELSE TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")
+END)

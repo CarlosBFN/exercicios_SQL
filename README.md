@@ -5,6 +5,13 @@ Voltados à prática com quaisquer bases genéricas (pode precisar de alguma ada
 
 ___
 
+## Plataforma usada
+
+- VSCode v1.90.2
+- SQLite v0.14.1 (Extension)
+
+___
+
 ## Arquivos
 
 1. README.md - Arquivo de texto que documenta o projeto
