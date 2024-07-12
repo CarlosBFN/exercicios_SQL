@@ -33,7 +33,7 @@ ___
 9. Na tabela avaliacoes, classifique cada avaliação como 'Boa', 'Média', ou 'Ruim' com base na pontuação. 1-3 para 'Ruim', 4-7 para 'Média', e 8-10 para 'Boa'.
 10. Altere o nome da coluna data_nasc para data_nascimento na tabela funcionarios e selecione todos os funcionários que nasceram após '1990-01-01'.
 
-## Questões - Exercício 1
+## Questões - Exercício 2
 
 1. Retornar a média de Notas dos Alunos em história.
 2. Retornar as informações dos alunos cujo Nome começa com 'A'.
