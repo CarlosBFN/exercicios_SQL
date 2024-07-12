@@ -93,6 +93,7 @@ FROM Notas b
         ON b.ID_Disciplina = a.ID_Disciplina
 GROUP BY b.Data_Avaliacao, a.Nome_Disciplina, b.Nota
 ORDER BY b.Data_Avaliacao DESC, Nota DESC
+;
 
 -- 8.Converta a coluna data_string da tabela eventos (avaliações), que está em formato de texto (YYYY-MM-DD), para o tipo de data e selecione todos os eventos após '2023-01-01' ('2023-08-01').
 
@@ -118,7 +119,7 @@ Base AS(
 SELECT DISTINCT *
 FROM Base
 WHERE Data_Avaliacao > "2023-08-01"
-    
+;  
 
 -- 9.Na tabela avaliações (Notas), classifique cada avaliação como 'Boa', 'Média', ou 'Ruim' com base na pontuação: 1-3 para 'Ruim', 4-7 para 'Média', e 8-10 para 'Boa'.
 
@@ -139,6 +140,7 @@ FROM Notas b
     LEFT JOIN Disciplinas a
         ON b.ID_Disciplina = a.ID_Disciplina
 ORDER BY b.Data_Avaliacao DESC, Nota DESC
+;
 
 -- 10.Altere o nome da coluna data_nasc para data_nascimento na tabela funcionarios e selecione todos os funcionários que nasceram após '1990-01-01'.
 
