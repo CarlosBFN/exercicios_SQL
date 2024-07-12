@@ -142,3 +142,4 @@ ORDER BY b.Data_Avaliacao DESC, Nota DESC
 
 -- 10.Altere o nome da coluna data_nasc para data_nascimento na tabela funcionarios e selecione todos os funcionários que nasceram após '1990-01-01'.
 
+-- Exercício ignorado por redundância

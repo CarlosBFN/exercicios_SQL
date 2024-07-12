@@ -14,9 +14,9 @@ ___
 
 ## Arquivos
 
-1. README.md - Arquivo de texto que documenta o projeto
-2. exercicio.sql - Querys de resolução dos exercícios
-3. sqlite.db - BD simulado de registros escolares
+1. README.md             - Arquivo de texto que documenta o projeto
+2. exercicio_1_alura.sql - Querys de resolução dos exercícios
+3. sqlite.db             - BD simulado de registros escolares
 
 ___
 
