@@ -47,3 +47,20 @@ FROM Notas n
     LEFT JOIN Disciplinas d 
         ON n.ID_Disciplina = d.ID_Disciplina
 ;
+
+-- Consulta 6: Retornar o nome do aluno que obteve a maior nota em cada disciplina.
+
+SELECT
+    a.Nome_Aluno
+    ,d.Nome_Disciplina
+    ,MAX(n.Nota) AS Nota    
+    
+FROM Notas n
+    LEFT JOIN Alunos a
+        ON n.ID_Aluno = a.ID_Aluno
+    LEFT JOIN Disciplinas d 
+        ON n.ID_Disciplina = d.ID_Disciplina
+
+GROUP BY Nome_Disciplina
+ORDER BY Nome_Disciplina
+;
