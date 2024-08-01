@@ -2,25 +2,26 @@
 
 Exercícios de SQL de nível básico da plataforma Alura.
 Voltados à prática com quaisquer bases genéricas (pode precisar de alguma adaptação dependendo da fonte).
-
+<br>
 ___
 
 ## Plataformas e ferramentas usadas
 
 - VSCode v1.90.2
 - SQLite v0.14.1 (Extension)
-- [SQLite Online] (https://sqliteonline.com/)
-<br>
+- SQLite Online
 <br>
 ___
 
 ## Arquivos
 
 1. README.md    - Arquivo de texto que documenta o projeto
+<br>
 
 2. base_1_escola.db                         - BD simulado de registros escolares
 3. exercicio_1_alura_(base_1_escola).sql    - Querys de resolução dos exercícios com base_1_escola
 4. exercicio_2_alura_(base_1_escola).sql    - Querys de resolução dos exercícios com base_1_escola
+<br>
 
 5. base_2_empresa.db                                                    - BD simulado de registros de uma empresa
 6. base_2_empresa_(criacao_das_tabelas).sql                             - Arquivo para criação da base_2_empresa
