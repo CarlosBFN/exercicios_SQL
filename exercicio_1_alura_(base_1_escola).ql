@@ -1,4 +1,4 @@
--- Exercício 1
+-- Exercício 1 (base_1_escola)
 
 -- Preparação da base
 

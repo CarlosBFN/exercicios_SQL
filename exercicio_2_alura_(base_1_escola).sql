@@ -1,4 +1,4 @@
--- Exercício 2
+-- Exercício 2 (base_1_escola)
 
 -- Consulta 1: Retornar a média de Notas dos Alunos em história.
 

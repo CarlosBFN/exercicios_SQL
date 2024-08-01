@@ -1,22 +1,32 @@
-# Exercícios de SQL básicos para bases genéricas #
+# Exercícios de SQL básicos com bases genéricas #
 
 Exercícios de SQL de nível básico da plataforma Alura.
 Voltados à prática com quaisquer bases genéricas (pode precisar de alguma adaptação dependendo da fonte).
 
 ___
 
-## Plataforma usada
+## Plataformas e ferramentas usadas
 
 - VSCode v1.90.2
 - SQLite v0.14.1 (Extension)
+- SQLite Online
 
 ___
 
 ## Arquivos
 
-1. README.md             - Arquivo de texto que documenta o projeto
-2. exercicio_1_alura.sql - Querys de resolução dos exercícios
-3. sqlite.db             - BD simulado de registros escolares
+1. README.md    - Arquivo de texto que documenta o projeto
+
+2. base_1_escola.db                         - BD simulado de registros escolares
+3. exercicio_1_alura_(base_1_escola).sql    - Querys de resolução dos exercícios com base_1_escola
+4. exercicio_2_alura_(base_1_escola).sql    - Querys de resolução dos exercícios com base_1_escola
+
+5. base_2_empresa.db                                                    - BD simulado de registros de uma empresa
+6. base_2_empresa_(criacao_das_tabelas).sql                             - Arquivo para criação da base_2_empresa
+7. base_2_empresa_(preenchimento_das_tabelas_1).sql                     - Query para preenchimento da base_2_empresa
+8. base_2_empresa_(preenchimento_das_tabelas_2_(itens_de_pedido)).csv   - Arquivo para preenchimento da base_2_empresa
+9. base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv           - Arquivo para preenchimento da base_2_empresa
+10. exercicio_3_alura_(base_2_empresa).sql                              - Querys de resolução dos exercícios com base_2_empresa
 
 ___
 
@@ -40,3 +50,10 @@ ___
 3. Buscar apenas os alunos que fazem aniversário em fevereiro.
 4. Realizar uma que calcula a idade dos Alunos.
 5. Retornar se o aluno está ou não aprovado. Aluno é considerado aprovado se a sua nota foi igual ou maior que 6.
+6. Retornar o nome do aluno que obteve a maior nota em cada disciplina.
+
+## Questões - Exercício 3
+
+1. Retornar tabela com todos os fornecedores e colaboradores e seus endereços
+2. Identificar qual ou quais clientes fizeram compras às 9:30 em 22 de janeiro de 2023
+3. Identificar qual ou quais clientes fizeram compras às em janeiro
