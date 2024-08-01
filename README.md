@@ -3,6 +3,7 @@
 Exercícios de SQL de nível básico da plataforma Alura.
 Voltados à prática com quaisquer bases genéricas (pode precisar de alguma adaptação dependendo da fonte).
 <br>
+
 ___
 
 ## Plataformas e ferramentas usadas
@@ -30,6 +31,7 @@ ___
 8. base_2_empresa_(preenchimento_das_tabelas_2_(itens_de_pedido)).csv   - Arquivo para preenchimento da base_2_empresa
 9. base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv           - Arquivo para preenchimento da base_2_empresa
 10. exercicio_3_alura_(base_2_empresa).sql                              - Querys de resolução dos exercícios com base_2_empresa
+<br>
 
 ___
 
@@ -60,3 +62,6 @@ ___
 1. Retornar tabela com todos os fornecedores e colaboradores e seus endereços
 2. Identificar qual ou quais clientes fizeram compras às 9:30 em 22 de janeiro de 2023
 3. Identificar qual ou quais clientes fizeram compras às em janeiro
+4. Quais produtos tem preços acima da média de preço dos produtos (duas soluções)
+5. Identificar quais clientes fizeram algum pedido
+6. Identificar itens sem pedidos no mês de outubro

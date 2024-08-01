@@ -99,4 +99,7 @@ INSERT INTO clientes (ID,Nome, Telefone, Endereco) VALUES
 INSERT INTO clientes (ID,Nome, Telefone, Endereco) VALUES
 (27, 'Paulo Sousa', '1415555678', 'Travessa das Marés, 876, Cidade N');
 
-SELECT * FROM clientes
+INSERT INTO Produtos (ID, Nome, Descricao, Preco, Categoria)VALUES 
+(31, 'Lasanha à Bolonhesa', 'Deliciosa lasanha caseira com molho bolonhesa', 12.50, 'Almoço');
+
+SELECT * FROM produtos
