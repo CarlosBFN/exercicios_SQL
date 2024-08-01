@@ -9,8 +9,9 @@ ___
 
 - VSCode v1.90.2
 - SQLite v0.14.1 (Extension)
-- SQLite Online
-
+- [SQLite Online] (https://sqliteonline.com/)
+<br>
+<br>
 ___
 
 ## Arquivos
