@@ -28,10 +28,12 @@ FROM fornecedores
 -- 2. Identificar qual ou quais clientes fizeram compras às 9:30 em 22 de janeiro de 2023
 
 SELECT 
-    nome        AS Nome
-    ,telefone   AS Telefone
+    c.nome                                      AS Nome
+    ,"(" || SUBSTR(c.telefone, 1, 2) || ")"
+        || SUBSTR(c.telefone, 3, 4) || "-"
+        || SUBSTR(c.telefone, 7)                AS Telefone
 
-FROM clientes
+FROM clientes c
 
 WHERE 1=1
     AND id = (
@@ -47,8 +49,10 @@ WHERE 1=1
 -- 3. Identificar qual ou quais clientes fizeram compras às em janeiro
 
 SELECT 
-    nome        AS Nome
-    ,telefone   AS Telefone
+    nome                                        AS Nome
+    ,"(" || SUBSTR(c.telefone, 1, 2) || ")"
+        || SUBSTR(c.telefone, 3, 4) || "-"
+        || SUBSTR(c.telefone, 7)                AS Telefone
 
 FROM clientes
 
@@ -135,11 +139,151 @@ FROM produtos p
             JOIN itenspedidos i 
                 ON p.id = i.idpedido
 
-        WHERE strftime('%m', p.DataHoraPedido) = "10" 
+        WHERE 1=1
+            AND strftime('%m', p.DataHoraPedido) = "10" 
     ) i 
         ON p.id = i.idproduto
 
 GROUP BY 1,2,3
 
 HAVING idpedido IS NULL
+;
+
+-- 7. Retorne o nome dos clientes que ainda não fizeram pedidos
+
+SELECT
+    c.nome                                      AS Nome_cliente
+    ,"(" || SUBSTR(c.telefone, 1, 2) || ")"
+        || SUBSTR(c.telefone, 3, 4) || "-"
+        || SUBSTR(c.telefone, 7)                AS Telefone_cliente
+    ,CASE
+        WHEN c.email = "Sem email" THEN "-"
+        ELSE c.email
+    END                                         AS Email_cliente
+
+FROM clientes c
+    LEFT JOIN pedidos p
+        ON c.id = p.idcliente
+
+WHERE 1=1
+    AND p.id IS NULL
+
+ORDER BY nome
+;    
+
+-- 8. Retorne o valor total dos pedidos
+
+WITH
+BASE_ITENSPEDIDOS AS(
+    SELECT
+        idpedido
+        ,idproduto
+        ,quantidade
+        ,precounitario
+        ,precounitario * quantidade AS Valor_Total_Pedido
+
+    FROM itenspedidos ip
+),
+
+BASE_PEDIDOS AS(
+SELECT
+    ip.idpedido
+    ,pe.idcliente
+    ,ip.Valor_Total_Pedido
+    ,pe.datahorapedido
+    ,pe.status
+
+FROM BASE_ITENSPEDIDOS ip
+    LEFT JOIN pedidos pe
+        ON ip.idpedido = pe.id
+)
+
+SELECT
+    CAST(pe.idpedido AS INTENGER)                           AS Pedido
+    ,cl.nome                                                AS Cliente
+    ,"R$ " || PRINTF('%.2f', SUM(pe.Valor_Total_Pedido))    AS Valor_Total_Pedido
+    ,pe.datahorapedido                                      AS Data_hora_pedido
+    ,pe.status                                              AS Status
+
+FROM BASE_PEDIDOS pe
+    LEFT JOIN clientes cl
+        ON pe.idcliente = cl.id
+
+GROUP BY 1,2
+ORDER BY 1
+;
+
+-- 9. Construir um modelo de nota para as vendas 
+
+SELECT
+    CAST(ip.idpedido AS INTENGER)       AS Pedido
+    ,ip.nome || " - " 
+        || ip.quantidade || "un. x " || "R$ " || PRINTF('%.2f', SUM(ip.precounitario)) 
+        || " - Total: " || "R$ " || PRINTF('%.2f', SUM(ip.Valor_Total_Pedido))    AS Nota
+    ,"Pedido feito às " || strftime('%H:%m', pe.datahorapedido) 
+        || " da " || CASE WHEN CAST(strftime('%H', pe.datahorapedido) AS INTENGER) >= 12 THEN "tarde " ELSE "manhã " END
+        || "no dia " || strftime('%d/%m/%Y', pe.datahorapedido)  AS Data_hora_pedido
+
+FROM (
+    SELECT
+        idpedido
+        ,idproduto
+        ,pr.nome
+        ,quantidade
+        ,precounitario
+        ,precounitario * quantidade AS Valor_Total_Pedido
+
+    FROM itenspedidos ip
+        LEFT JOIN produtos pr
+            ON ip.idproduto = pr.id
+) ip
+    LEFT JOIN pedidos pe
+        ON ip.idpedido = pe.id
+
+GROUP BY idpedido, idproduto
+ORDER BY 1
+;
+
+-- 10. Retorne o nome de cada cliente e o valor total dos pedidos que cada um deles comprou
+
+WITH
+BASE1 AS(
+    SELECT
+        c.nome
+        ,p.id
+
+    FROM clientes c
+        LEFT JOIN pedidos p
+            ON c.id = p.idcliente
+),
+
+BASE2 AS(
+    SELECT 
+        b.nome 
+        ,i.quantidade
+        ,i.precounitario
+        ,SUM(i.quantidade * i.precounitario) AS valor
+
+    FROM BASE1 b
+        LEFT JOIN itenspedidos i
+            ON b.id = i.idpedido
+
+    GROUP BY 1
+)
+
+SELECT
+    nome                               AS Nome
+    ,"R$ " || PRINTF('%.2f', valor)    AS Valor_total_gasto
+    ,"R$ " || PRINTF('%.2f', AVG(valor) OVER())                    AS Gasto_médio
+    ,CASE 
+        WHEN valor >= (AVG(valor) OVER()) * 1.2 THEN "Maiores gastadores"
+        WHEN valor >= (AVG(valor) OVER()) * 0.8 AND valor < (AVG(valor) OVER()) * 1.2 THEN "Gastadores medianos"
+        WHEN valor <= (AVG(valor) OVER()) * 0.8 THEN "Menores gastadores"
+        ELSE "Sem gastos"
+    END                                     AS Tipo_cliente
+
+FROM BASE2
+
+GROUP BY 1
+ORDER BY valor DESC
 ;

@@ -53,10 +53,6 @@ INSERT INTO produtos (ID, Nome, Descricao, Preco, Categoria) VALUES
 (30, 'Salada de Atum', 'Salada de atum com feijão e pimentão.', 8.00, 'Almoço');
 
 
-
-
-
-
 INSERT INTO clientes (ID, Nome, Telefone, Email, Endereco) VALUES
 (1, 'Maria Silva', '115551234', 'maria.silva@email.com', 'Rua das Flores, 123, Cidade A'),
 (2, 'João Pereira', '215555678', 'joao.pereira@email.com', 'Av. Principal, 456, Cidade B'),
@@ -102,4 +98,8 @@ INSERT INTO clientes (ID,Nome, Telefone, Endereco) VALUES
 INSERT INTO Produtos (ID, Nome, Descricao, Preco, Categoria)VALUES 
 (31, 'Lasanha à Bolonhesa', 'Deliciosa lasanha caseira com molho bolonhesa', 12.50, 'Almoço');
 
-SELECT * FROM produtos
+INSERT INTO Clientes (id, Nome, Telefone, Email, Endereco)
+VALUES (28, 'João Santos', '215555678', 'joao.santos@email.com', 'Avenida Principal, 456, Cidade B'),
+       (29, 'Carla Ferreira', '315557890', 'carla.ferreira@email.com', 'Travessa das Ruas, 789, Cidade C');
+
+SELECT * FROM clientes

@@ -65,3 +65,6 @@ ___
 4. Quais produtos tem preços acima da média de preço dos produtos (duas soluções)
 5. Identificar quais clientes fizeram algum pedido
 6. Identificar itens sem pedidos no mês de outubro
+7. Retorne o nome dos clientes que ainda não fizeram pedidos
+8. Retorne o valor total dos pedidos
+9. Construir um modelo de nota para as vendas 
