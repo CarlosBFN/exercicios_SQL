@@ -287,3 +287,36 @@ FROM BASE2
 GROUP BY 1
 ORDER BY valor DESC
 ;
+
+-- 11. Com o auxílio de uma view que retorne os dados de pedidos que estão em andamento
+
+CREATE VIEW pedidos_em_andamento AS
+SELECT
+    id
+    ,status
+
+FROM pedidos
+
+WHERE status = "Em Andamento"
+;
+
+SELECT
+    p.id_pedido
+    ,c.nome             AS cliente
+    ,p.data_hora_pedido
+
+FROM(  
+    SELECT
+        p.id                AS id_pedido
+        ,p.idcliente
+        ,p.datahorapedido   AS data_hora_pedido
+
+    FROM pedidos_em_andamento a 
+
+        LEFT JOIN pedidos p
+            ON a.id = p.id
+) p
+    LEFT JOIN clientes c
+        ON c.id = p.idcliente
+;
+

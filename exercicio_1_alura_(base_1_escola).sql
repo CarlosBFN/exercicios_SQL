@@ -1,11 +1,10 @@
 -- Exercício 1 (base_1_escola)
 
 -- Preparação da base
-
-/*
 -- Criei uma nova coluna chamada "Data_Avaliacao_Julianday" para ter uma data no formato padrão para a tabela Notas, o que utilizei em mais de um dos exercícios.
 -- Comentei todo o trecho para que novas alterações na tabela não fossem feitas por acaso.
 
+/*
 ALTER TABLE Notas
 ADD COLUMN Data_Avaliacao_Julianday DATE 
 ;
@@ -21,6 +20,7 @@ SET Data_Avaliacao_Julianday =
     ELSE TRIM(("0" || SUBSTR(Data_Avaliacao, INSTR(Data_Avaliacao,"/") +1, INSTR(Data_Avaliacao,"/"))), "/")
 END)
 */
+
 
 -- 1.Selecione os primeiros 5 registros da tabela clientes (Alunos), ordenando-os pelo nome em ordem crescente.
 

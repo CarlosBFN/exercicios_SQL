@@ -68,3 +68,5 @@ ___
 7. Retorne o nome dos clientes que ainda não fizeram pedidos
 8. Retorne o valor total dos pedidos
 9. Construir um modelo de nota para as vendas 
+10. Retorne o nome de cada cliente e o valor total dos pedidos que cada um deles comprou
+11. Com o auxílio de uma view que retorne os dados de pedidos que estão em andamento
