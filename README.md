@@ -20,17 +20,17 @@ ___
 1. README.md    - Arquivo de texto que documenta o projeto
 <br>
 
-2. base_1_escola.db                         - BD simulado de registros escolares
-3. exercicio_1_alura_(base_1_escola).sql    - Querys de resolução dos exercícios com base_1_escola
-4. exercicio_2_alura_(base_1_escola).sql    - Querys de resolução dos exercícios com base_1_escola
+2. [Base 1](base_1_escola.db)   - BD simulado de registros escolares
+3. [Exercício 1](exercicio_1_alura_(base_1_escola).sql) - Querys de resolução dos exercícios com base_1_escola
+4. [Exercício 2](exercicio_2_alura_(base_1_escola).sql) - Querys de resolução dos exercícios com base_1_escola
 <br>
 
-5. base_2_empresa.db                                                    - BD simulado de registros de uma empresa
-6. base_2_empresa_(criacao_das_tabelas).sql                             - Arquivo para criação da base_2_empresa
-7. base_2_empresa_(preenchimento_das_tabelas_1).sql                     - Query para preenchimento da base_2_empresa
-8. base_2_empresa_(preenchimento_das_tabelas_2_(itens_de_pedido)).csv   - Arquivo para preenchimento da base_2_empresa
-9. base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv           - Arquivo para preenchimento da base_2_empresa
-10. exercicio_3_alura_(base_2_empresa).sql                              - Querys de resolução dos exercícios com base_2_empresa
+5. [Base 2](base_2_empresa.db)  - BD simulado de registros de uma empresa
+6. [Base 2 - Criação de tabelas](base_2_empresa_(criacao_das_tabelas).sql)  - Arquivo para criação da base_2_empresa
+7. [Base 2 - Prenchimento das tabelas 1](base_2_empresa_(preenchimento_das_tabelas_1).sql) - Query para preenchimento da base_2_empresa
+8. [Base 2 - Prenchimento das tabelas 2](base_2_empresa_(preenchimento_das_tabelas_2_(itens_de_pedido)).csv)    - Arquivo para preenchimento da base_2_empresa
+9. [Base 2 - Prenchimento das tabelas 3](base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv)    - Arquivo para preenchimento da base_2_empresa
+10. [Exercício 3](exercicio_3_alura_(base_2_empresa).sql)   - Querys de resolução dos exercícios com base_2_empresa
 <br>
 
 ___
