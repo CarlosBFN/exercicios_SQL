@@ -61,7 +61,7 @@ ___
 
 1. Retornar tabela com todos os fornecedores e colaboradores e seus endereços
 2. Identificar qual ou quais clientes fizeram compras às 9:30 em 22 de janeiro de 2023
-3. Identificar qual ou quais clientes fizeram compras às em janeiro
+3. Identificar qual ou quais clientes fizeram compras em janeiro
 4. Quais produtos tem preços acima da média de preço dos produtos (duas soluções)
 5. Identificar quais clientes fizeram algum pedido
 6. Identificar itens sem pedidos no mês de outubro
@@ -69,4 +69,4 @@ ___
 8. Retorne o valor total dos pedidos
 9. Construir um modelo de nota para as vendas 
 10. Retorne o nome de cada cliente e o valor total dos pedidos que cada um deles comprou
-11. Com o auxílio de uma view que retorne os dados de pedidos que estão em andamento
+11. Com o auxílio de uma view faça uma query que retorne os dados de pedidos que estão em andamento

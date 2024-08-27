@@ -3,24 +3,26 @@
 -- 1. Retornar tabela com todos os fornecedores e colaboradores e seus endereços
 
 SELECT 
-    "Colaborador"   AS Tipo
-    ,nome           AS Nome
-    ,bairro         AS Bairro
-    ,cidade         AS Cidade
-    ,estado         AS Estado
-    ,cep            AS CEP
+    "Colaborador"               AS Tipo
+    ,nome                       AS Nome
+    ,bairro                     AS Bairro
+    ,cidade                     AS Cidade
+    ,estado                     AS Estado
+    ,SUBSTR(cep, 1,5) || "-"
+        || SUBSTR(cep, 6)       AS CEP
 
 FROM colaboradores
 
 UNION ALL
 
 SELECT 
-    "Fornecedor"   AS Tipo
-    ,nome          AS Nome
-    ,bairro        AS Bairro
-    ,cidade        AS Cidade
-    ,estado        AS Estado
-    ,cep           AS CEP
+    "Fornecedor"                AS Tipo
+    ,nome                       AS Nome
+    ,bairro                     AS Bairro
+    ,cidade                     AS Cidade
+    ,estado                     AS Estado
+    ,SUBSTR(cep, 1,5) || "-"
+        || SUBSTR(cep, 6)       AS CEP
 
 FROM fornecedores
 ;
@@ -29,41 +31,51 @@ FROM fornecedores
 
 SELECT 
     c.nome                                      AS Nome
-    ,"(" || SUBSTR(c.telefone, 1, 2) || ")"
-        || SUBSTR(c.telefone, 3, 4) || "-"
-        || SUBSTR(c.telefone, 7)                AS Telefone
+    ,t.ddd
+        || SUBSTR(t.telefone, -4, -5) || "-"
+        || SUBSTR(t.telefone, -4)               AS Telefone_cliente
 
 FROM clientes c
+    LEFT JOIN arruma_telefones t
+        ON c.id = t.id
 
 WHERE 1=1
-    AND id = (
+    AND c.id = (
         SELECT
             idcliente
         
         FROM pedidos
 
-        WHERE datahorapedido = "2023-01-22 09:30:00"
+        WHERE TRUE 
+            AND datahorapedido = "2023-01-22 09:30:00"
     )
 ;
 
--- 3. Identificar qual ou quais clientes fizeram compras às em janeiro
+-- 3. Identificar qual ou quais clientes fizeram compras em janeiro
 
 SELECT 
-    nome                                        AS Nome
-    ,"(" || SUBSTR(c.telefone, 1, 2) || ")"
-        || SUBSTR(c.telefone, 3, 4) || "-"
-        || SUBSTR(c.telefone, 7)                AS Telefone
+    c.nome                                        AS Nome
+    ,t.ddd
+        || SUBSTR(t.telefone, -4, -5) || "-"
+        || SUBSTR(t.telefone, -4)                 AS Telefone_cliente
+    ,DATE(p.datahorapedido)                       AS Data_pedido
 
-FROM clientes
+FROM clientes c
+    LEFT JOIN arruma_telefones t
+        ON c.id = t.id
+
+    LEFT JOIN pedidos p
+        ON c.id = p.idcliente
 
 WHERE 1=1
-    AND id IN (
+    AND c.id IN (
         SELECT
             idcliente
         
         FROM pedidos
 
-        WHERE STRFTIME('%m', datahorapedido) = "01"
+        WHERE 1=1
+            AND STRFTIME('%m', datahorapedido) = "01"
     )
 ;
 
@@ -100,7 +112,9 @@ FROM produtos
 GROUP BY 1,2,3
 
 HAVING preco > (
-    SELECT AVG(preco)
+    SELECT 
+        AVG(preco)
+    
     FROM produtos)
 
 ORDER BY preco DESC
@@ -108,17 +122,45 @@ ORDER BY preco DESC
 
 -- 5. Identificar quais clientes fizeram algum pedido
 
+WITH
+conta_pedidos AS(
+    SELECT
+        idcliente
+        ,COUNT(id)  AS contagem_pedidos
+    
+    FROM pedidos
+
+    GROUP BY 1
+),
+
+media_pedidos AS(
+    SELECT
+        AVG(contagem_pedidos)   AS media_pedidos
+    
+    FROM conta_pedidos
+)
+
 SELECT
-    c.nome              AS Nome_cliente
-    ,p.id               AS ID_pedido
-    ,p.datahorapedido   AS Data_hora_pedido
-    ,p.status           AS Status_pedido
+    c.nome                              AS Nome_cliente
+    ,cp.contagem_pedidos                AS Total_pedidos_cliente
+    ,CASE
+        WHEN cp.contagem_pedidos > mp.media_pedidos THEN "Comprador acima da média"
+        ELSE "Comprador abaixo da média"
+    END                                 AS Média_compras
+    ,MIN(DATE(p.datahorapedido))        AS Primeira_compra
+    ,MAX(DATE(p.datahorapedido))        AS Última_compra
 
 FROM clientes c
     INNER JOIN pedidos p
         ON c.id = p.idcliente
 
-ORDER BY datahorapedido
+    LEFT JOIN conta_pedidos cp
+        ON c.id = cp.idcliente
+
+    CROSS JOIN media_pedidos mp
+
+GROUP BY 1,2,3
+ORDER BY c.nome
 ;
 
 -- 6. Identificar itens sem pedidos no mês de outubro
@@ -151,11 +193,20 @@ HAVING idpedido IS NULL
 
 -- 7. Retorne o nome dos clientes que ainda não fizeram pedidos
 
+CREATE VIEW arruma_telefones AS
+SELECT
+    id
+    ,"(" || SUBSTR(c.telefone, 1, 2) || ")"     AS ddd
+    ,CAST(SUBSTR(c.telefone, 3) AS STRING)      AS telefone
+
+FROM clientes c
+;
+
 SELECT
     c.nome                                      AS Nome_cliente
-    ,"(" || SUBSTR(c.telefone, 1, 2) || ")"
-        || SUBSTR(c.telefone, 3, 4) || "-"
-        || SUBSTR(c.telefone, 7)                AS Telefone_cliente
+    ,t.ddd
+        || SUBSTR(t.telefone, -4, -5) || "-"
+        || SUBSTR(t.telefone, -4)               AS Telefone_cliente
     ,CASE
         WHEN c.email = "Sem email" THEN "-"
         ELSE c.email
@@ -164,6 +215,9 @@ SELECT
 FROM clientes c
     LEFT JOIN pedidos p
         ON c.id = p.idcliente
+
+    LEFT JOIN arruma_telefones t
+        ON c.id = t.id
 
 WHERE 1=1
     AND p.id IS NULL
@@ -288,16 +342,18 @@ GROUP BY 1
 ORDER BY valor DESC
 ;
 
--- 11. Com o auxílio de uma view que retorne os dados de pedidos que estão em andamento
+-- 11. Com o auxílio de uma view faça uma query que retorne os dados de pedidos que estão em andamento
 
-CREATE VIEW pedidos_em_andamento AS
+CREATE VIEW pedidos_em_andamento AS(
 SELECT
     id
     ,status
 
 FROM pedidos
 
-WHERE status = "Em Andamento"
+WHERE TRUE
+    AND status = "Em Andamento"
+)
 ;
 
 SELECT
@@ -319,4 +375,3 @@ FROM(
     LEFT JOIN clientes c
         ON c.id = p.idcliente
 ;
-
