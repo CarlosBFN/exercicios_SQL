@@ -1,9 +1,10 @@
 # Exercícios de SQL básicos com bases genéricas #
 
-Exercícios de SQL de nível básico da plataforma Alura.
+Exercícios de SQL para análise de dados de nível básico à intermediário da plataforma Alura.
 Voltados à prática com quaisquer bases genéricas (pode precisar de alguma adaptação dependendo da fonte).
 <br>
 
+Palavras-chave: SQL; JOIN; WITH; VIEW; TRIGGER; HAVING; filtros; análise
 ___
 
 ## Plataformas e ferramentas usadas
