@@ -70,3 +70,4 @@ ___
 9. Construir um modelo de nota para as vendas 
 10. Retorne o nome de cada cliente e o valor total dos pedidos que cada um deles comprou
 11. Com o auxílio de uma view faça uma query que retorne os dados de pedidos que estão em andamento
+12. Contruir um TRIGGER para que o faturamento diário esteja sempre atualizado

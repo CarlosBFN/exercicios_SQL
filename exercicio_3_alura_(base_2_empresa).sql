@@ -375,3 +375,62 @@ FROM(
     LEFT JOIN clientes c
         ON c.id = p.idcliente
 ;
+
+-- 12. Contruir um TRIGGER para que o faturamento diário esteja sempre atualizado
+
+CREATE TABLE FaturamentoDiario (
+    Dia DATE,
+    FaturamentoTotal DECIMAL(10, 2)
+)
+;
+
+INSERT INTO FaturamentoDiario (Dia, FaturamentoTotal)
+    SELECT
+        DATE(p.datahorapedido)                              AS Dia
+        ,"R$ " || PRINTF('%.2f', SUM(ip.precounitario))     AS Faturamento
+
+    FROM pedidos p
+        INNER JOIN itenspedidos ip
+            ON p.id = ip.idpedido
+
+    GROUP BY 1
+    ORDER BY 1 DESC
+;
+
+CREATE TRIGGER CalculaFaturamentoDiario
+AFTER INSERT ON itenspedidos
+FOR EACH ROW
+BEGIN
+    DELETE FROM FaturamentoDiario;
+    INSERT INTO FaturamentoDiario (Dia, FaturamentoTotal)
+        SELECT
+            DATE(p.datahorapedido)                              AS Dia
+            ,"R$ " || PRINTF('%.2f', SUM(ip.precounitario))     AS Faturamento
+
+        FROM pedidos p
+            INNER JOIN itenspedidos ip
+                ON p.id = ip.idpedido
+
+        GROUP BY 1
+        ORDER BY 1 DESC;
+END
+;
+
+--Teste do TRIGGER
+INSERT INTO pedidos(id, idcliente, datahorapedido, status) VALUES 
+(451, 27, '2023-10-07 14:30:00', 'Em Andamento')
+;
+
+INSERT INTO ItensPedidos(idpedido, idproduto, quantidade, precounitario) VALUES 
+(451, 14, 1, 6.0),
+(451, 13, 1, 7.0)
+;
+
+INSERT INTO Pedidos (id, idcliente, datahorapedido, status) VALUES 
+(452, 28, '2023-10-07 14:35:00', 'Em Andamento')
+;
+
+INSERT INTO ItensPedidos (idpedido, idproduto, quantidade, precounitario) VALUES 
+(452, 10, 1, 5.0),
+(452, 31, 1, 12.50)
+;
