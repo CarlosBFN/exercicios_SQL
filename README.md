@@ -3,7 +3,6 @@
 Este projeto contém uma série de exercícios básicos e intermediários em SQL, projetados para melhorar suas habilidades em manipulação de bancos de dados e execução de consultas SQL. Os exercícios cobrem tópicos como joins, triggers, views, funções de agregação e manipulação de strings, e são adequados para estudantes e profissionais em busca de prática.
 
 Voltados à prática com quaisquer bases genéricas (pode precisar de alguma adaptação dependendo da fonte).
-<br><br>
 
 Palavras-chave: SQL; JOIN; WITH; VIEW; TRIGGER; HAVING; filtros; análise
 
@@ -19,17 +18,16 @@ Palavras-chave: SQL; JOIN; WITH; VIEW; TRIGGER; HAVING; filtros; análise
 1. README.md    - Arquivo de texto que documenta o projeto
 <br><br>
 
-2. [Base 1](base_1_escola.db)   - Base de dados simulada de registros escolares
+2. [Base 1](data/base_1_escola.db)   - Base de dados simulada de registros escolares
 3. [Exercício 1](exercicio_1_alura_(base_1_escola).sql) - Queries de resolução dos exercícios com a **Base 1**
 <br> <br>
 
-5. [Base 2](base_2_empresa.db)  - Base de dados simulada de registros de uma empresa
-6. [Base 2 - Criação de tabelas](base_2_empresa_(criacao_das_tabelas).sql)  - Arquivo para criação da **Base 2**
-7. [Base 2 - Preenchimento das tabelas 1](base_2_empresa_(preenchimento_das_tabelas_1).sql) - Query para preenchimento da **Base 2**
-8. [Base 2 - Preenchimento das tabelas 2](base_2_empresa_(preenchimento_das_tabelas_2_(itens_de_pedido)).csv)    - Arquivo para preenchimento da **Base 2**
-9. [Base 2 - Preenchimento das tabelas 3](base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv)    - Arquivo para preenchimento da **Base 2**
+5. [Base 2](data/base_2_empresa.db)  - Base de dados simulada de registros de uma empresa
+6. [Base 2 - Criação de tabelas](data/base_2_empresa_(criacao_das_tabelas).sql)  - Arquivo para criação da **Base 2**
+7. [Base 2 - Preenchimento das tabelas 1](data/base_2_empresa_(preenchimento_das_tabelas_1).sql) - Query para preenchimento da **Base 2**
+8. [Base 2 - Preenchimento das tabelas 2](data/base_2_empresa_(preenchimento_das_tabelas_2_(itens_de_pedido)).csv)    - Arquivo para preenchimento da **Base 2**
+9. [Base 2 - Preenchimento das tabelas 3](data/base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv)    - Arquivo para preenchimento da **Base 2**
 10. [Exercício 2](exercicio_2_alura_(base_2_empresa).sql)   - Queries de resolução dos exercícios com **Base 2**
-<br>
 
 ### Como usar os arquivos
 
@@ -57,7 +55,7 @@ _Objetivo: Praticar ordenação de registros com ORDER BY, agrupamento com GROUP
 14. Retornar se o aluno está ou não aprovado. Aluno é considerado aprovado se a sua nota foi igual ou maior que 6.
 15. Retornar o nome do aluno que obteve a maior nota em cada disciplina.
 
-## Questões - Exercício 3
+## Questões - Exercício 2
 _Objetivo: Praticar mesclagem de tabelas com UNION ALL, mais tranformaçãoes de texto com SUBSTR e "||" outros tipos de JOIN, consultas encapsuladas dentro de JOIN, criação de VIEW e TRIGGER._
 
 1. Retornar tabela com todos os fornecedores e colaboradores e seus endereços
