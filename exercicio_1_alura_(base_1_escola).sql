@@ -142,6 +142,67 @@ FROM Notas b
 ORDER BY b.Data_Avaliacao DESC, Nota DESC
 ;
 
--- 10.Altere o nome da coluna data_nasc para data_nascimento na tabela funcionarios e selecione todos os funcionários que nasceram após '1990-01-01'.
+-- 10.Retornar a média de Notas dos Alunos em história.
 
--- Exercício ignorado por redundância
+SELECT 
+    AVG(Nota) AS Nota_Media_Historia
+FROM Notas
+WHERE ID_Nota = 2
+;
+
+-- 11.Retornar as informações dos alunos cujo Nome começa com 'A'.
+
+SELECT *
+FROM Alunos
+WHERE SUBSTR(Nome_Aluno, 1, 1) = "A"
+;
+
+-- 12.Buscar apenas os alunos que fazem aniversário em fevereiro.
+
+SELECT *
+FROM Alunos
+WHERE STRFTIME('%m', Data_Nascimento) = "02"
+;
+
+-- 13.Realizar uma consulta que calcula a idade dos Alunos.
+
+SELECT
+    Nome_Aluno
+    ,Data_Nascimento
+    ,CAST(((JULIANDAY(CURRENT_DATE) - JULIANDAY(Data_Nascimento)) /365.25) AS INTENGER) AS Idade_Aluno
+FROM Alunos
+;
+
+-- 14.Retornar se o aluno está ou não aprovado. Aluno é considerado aprovado se a sua nota foi igual ou maior que 6.
+
+SELECT
+    a.Nome_Aluno
+    ,d.Nome_Disciplina
+    ,n.Nota    
+    ,CASE  
+        WHEN n.Nota >= 6 THEN "Aprovado"
+        ELSE "Reprovado"
+    END AS Aprovacao
+FROM Notas n
+    LEFT JOIN Alunos a
+        ON n.ID_Aluno = a.ID_Aluno
+    LEFT JOIN Disciplinas d 
+        ON n.ID_Disciplina = d.ID_Disciplina
+;
+
+-- 15.Retornar o nome do aluno que obteve a maior nota em cada disciplina.
+
+SELECT
+    a.Nome_Aluno
+    ,d.Nome_Disciplina
+    ,MAX(n.Nota) AS Nota    
+    
+FROM Notas n
+    LEFT JOIN Alunos a
+        ON n.ID_Aluno = a.ID_Aluno
+    LEFT JOIN Disciplinas d 
+        ON n.ID_Disciplina = d.ID_Disciplina
+
+GROUP BY Nome_Disciplina
+ORDER BY Nome_Disciplina
+;

@@ -1,44 +1,47 @@
-# Exercícios de SQL básicos com bases genéricas #
+# Exercícios de SQL
 
-Exercícios de SQL para análise de dados de nível básico à intermediário da plataforma Alura.
+Este projeto contém uma série de exercícios básicos e intermediários em SQL, projetados para melhorar suas habilidades em manipulação de bancos de dados e execução de consultas SQL. Os exercícios cobrem tópicos como joins, triggers, views, funções de agregação e manipulação de strings, e são adequados para estudantes e profissionais em busca de prática.
+
 Voltados à prática com quaisquer bases genéricas (pode precisar de alguma adaptação dependendo da fonte).
-<br>
+<br><br>
 
 Palavras-chave: SQL; JOIN; WITH; VIEW; TRIGGER; HAVING; filtros; análise
-___
+
 
 ## Plataformas e ferramentas usadas
 
-- VSCode v1.90.2
-- SQLite v0.14.1 (Extension)
-- SQLite Online
-<br>
+- **VSCode v1.90.2**: Usado como editor de código.
+- **SQLite v0.14.1**: Extensão do VSCode para trabalhar com bancos de dados SQLite.
+- **SQLite Online**: Usada para criar os arquivos '.db'. Pode também ser usada como ferramenta alternativa para executar queries SQL diretamente no navegador.
 
-___
-
-## Arquivos
+## Arquivos do projeto
 
 1. README.md    - Arquivo de texto que documenta o projeto
+<br><br>
+
+2. [Base 1](base_1_escola.db)   - Base de dados simulada de registros escolares
+3. [Exercício 1](exercicio_1_alura_(base_1_escola).sql) - Queries de resolução dos exercícios com a **Base 1**
+<br> <br>
+
+5. [Base 2](base_2_empresa.db)  - Base de dados simulada de registros de uma empresa
+6. [Base 2 - Criação de tabelas](base_2_empresa_(criacao_das_tabelas).sql)  - Arquivo para criação da **Base 2**
+7. [Base 2 - Preenchimento das tabelas 1](base_2_empresa_(preenchimento_das_tabelas_1).sql) - Query para preenchimento da **Base 2**
+8. [Base 2 - Preenchimento das tabelas 2](base_2_empresa_(preenchimento_das_tabelas_2_(itens_de_pedido)).csv)    - Arquivo para preenchimento da **Base 2**
+9. [Base 2 - Preenchimento das tabelas 3](base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv)    - Arquivo para preenchimento da **Base 2**
+10. [Exercício 2](exercicio_2_alura_(base_2_empresa).sql)   - Queries de resolução dos exercícios com **Base 2**
 <br>
 
-2. [Base 1](base_1_escola.db)   - BD simulado de registros escolares
-3. [Exercício 1](exercicio_1_alura_(base_1_escola).sql) - Querys de resolução dos exercícios com base_1_escola
-4. [Exercício 2](exercicio_2_alura_(base_1_escola).sql) - Querys de resolução dos exercícios com base_1_escola
-<br>
+### Como usar os arquivos
 
-5. [Base 2](base_2_empresa.db)  - BD simulado de registros de uma empresa
-6. [Base 2 - Criação de tabelas](base_2_empresa_(criacao_das_tabelas).sql)  - Arquivo para criação da base_2_empresa
-7. [Base 2 - Prenchimento das tabelas 1](base_2_empresa_(preenchimento_das_tabelas_1).sql) - Query para preenchimento da base_2_empresa
-8. [Base 2 - Prenchimento das tabelas 2](base_2_empresa_(preenchimento_das_tabelas_2_(itens_de_pedido)).csv)    - Arquivo para preenchimento da base_2_empresa
-9. [Base 2 - Prenchimento das tabelas 3](base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv)    - Arquivo para preenchimento da base_2_empresa
-10. [Exercício 3](exercicio_3_alura_(base_2_empresa).sql)   - Querys de resolução dos exercícios com base_2_empresa
-<br>
+1. a) Baixe os bancos de dados (.db) e abra-os usando o SQLite no VSCode ou em outra ferramenta de sua escolha. b) Ou baixe os arquivos de criação das bases e as recrie. 
 
-___
+2. Abra os arquivos de query (.sql) e execute as consultas no banco de dados correspondente.
 
 ## Questões - Exercício 1
+_Objetivo: Praticar ordenação de registros com ORDER BY, agrupamento com GROUP BY, diferentes formas de filtragem usando com WHERE e HAVING, tranformações de texto com SUBSTR e "||", operações com datas, validações e tranformações com CASE ,particionamento de consulta com WITH e interaçõa entre diferentes tabelas com LEFT JOIN._
 
 1. Selecione os primeiros 5 registros da tabela clientes, ordenando-os pelo nome em ordem crescente.
+
 2. Encontre todos os produtos na tabela produtos que não têm uma descrição associada (suponha que a coluna de descrição possa ser nula).
 3. Liste os funcionários cujo nome começa com 'A' e termina com 's' na tabela funcionarios.
 4. Exiba o departamento e a média salarial dos funcionários em cada departamento na tabela funcionarios, agrupando por departamento, apenas para os departamentos cuja média salarial é superior a $5000.
@@ -47,20 +50,18 @@ ___
 7. Selecione todos os itens da tabela pedidos e arredonde o preço total para o número inteiro mais próximo.
 8. Converta a coluna data_string da tabela eventos, que está em formato de texto (YYYY-MM-DD), para o tipo de data e selecione todos os eventos após '2023-01-01'.
 9. Na tabela avaliacoes, classifique cada avaliação como 'Boa', 'Média', ou 'Ruim' com base na pontuação. 1-3 para 'Ruim', 4-7 para 'Média', e 8-10 para 'Boa'.
-10. Altere o nome da coluna data_nasc para data_nascimento na tabela funcionarios e selecione todos os funcionários que nasceram após '1990-01-01'.
-
-## Questões - Exercício 2
-
-1. Retornar a média de Notas dos Alunos em história.
-2. Retornar as informações dos alunos cujo Nome começa com 'A'.
-3. Buscar apenas os alunos que fazem aniversário em fevereiro.
-4. Realizar uma que calcula a idade dos Alunos.
-5. Retornar se o aluno está ou não aprovado. Aluno é considerado aprovado se a sua nota foi igual ou maior que 6.
-6. Retornar o nome do aluno que obteve a maior nota em cada disciplina.
+10.  Retornar a média de Notas dos Alunos em história.
+11. Retornar as informações dos alunos cujo Nome começa com 'A'.
+12. Buscar apenas os alunos que fazem aniversário em fevereiro.
+13. Realizar uma que calcula a idade dos Alunos.
+14. Retornar se o aluno está ou não aprovado. Aluno é considerado aprovado se a sua nota foi igual ou maior que 6.
+15. Retornar o nome do aluno que obteve a maior nota em cada disciplina.
 
 ## Questões - Exercício 3
+_Objetivo: Praticar mesclagem de tabelas com UNION ALL, mais tranformaçãoes de texto com SUBSTR e "||" outros tipos de JOIN, consultas encapsuladas dentro de JOIN, criação de VIEW e TRIGGER._
 
 1. Retornar tabela com todos os fornecedores e colaboradores e seus endereços
+
 2. Identificar qual ou quais clientes fizeram compras às 9:30 em 22 de janeiro de 2023
 3. Identificar qual ou quais clientes fizeram compras em janeiro
 4. Quais produtos tem preços acima da média de preço dos produtos (duas soluções)
