@@ -29,9 +29,22 @@ Palavras-chave: SQL; JOIN; WITH; VIEW; TRIGGER; HAVING; filtros; análise
 9. [Base 2 - Preenchimento das tabelas 3](data/base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv)    - Arquivo para preenchimento da **Base 2**
 10. [Exercício 2](exercicio_2_alura_(base_2_empresa).sql)   - Queries de resolução dos exercícios com **Base 2**
 
+### Estrutura do projeto
+```
+exercicios_SQL/
+│
+├── data/                                       # Pasta de dados
+│   ├── processed/                              # Dados brutos, como foram obtidos
+│   └── raw/                                    # Dados processados
+│
+├── exercicio_1_alura_(base_1_escola).sql       # Consulta SQL
+├── exercicio_2_alura_(base_2_empresa).sql      # Consulta SQL
+└── README.md                                   # Arquivo de documentação principal
+```
+
 ### Como usar os arquivos
 
-1. a) Baixe os bancos de dados (.db) e abra-os usando o SQLite no VSCode ou em outra ferramenta de sua escolha. b) Ou baixe os arquivos de criação das bases e as recrie. 
+1. a) Baixe os bancos de dados (.db) da pasta `data/processed` e abra-os usando o SQLite no VSCode ou em outra ferramenta de sua escolha. b) Ou baixe os arquivos de criação das bases da pasta `data/raw` e as recrie. 
 
 2. Abra os arquivos de query (.sql) e execute as consultas no banco de dados correspondente.
 
@@ -71,3 +84,5 @@ _Objetivo: Praticar mesclagem de tabelas com UNION ALL, mais tranformaçãoes de
 10. Retorne o nome de cada cliente e o valor total dos pedidos que cada um deles comprou
 11. Com o auxílio de uma view faça uma query que retorne os dados de pedidos que estão em andamento
 12. Contruir um TRIGGER para que o faturamento diário esteja sempre atualizado
+13. Atualizar dados já existentes na base (novo preço para a lasanha e nova descrição para o croisssant de amêndoas)
+14. Remover dados existentes (colaborador Pedro Almeida	desligado, cliente Paulo Sousa que pediu exclusão dos dados)

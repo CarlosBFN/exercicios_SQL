@@ -434,3 +434,26 @@ INSERT INTO ItensPedidos (idpedido, idproduto, quantidade, precounitario) VALUES
 (452, 10, 1, 5.0),
 (452, 31, 1, 12.50)
 ;
+
+-- 13. Atualizar dados já existentes na base (novo preço para a lasanha e nova descrição para o croisssant de amêndoas).
+
+UPDATE produtos SET preco = 13.0 WHERE id = 31
+;
+UPDATE produtos SET descricao = 'Crossaint recheado com amêndoas.' WHERE id = 28
+;
+SELECT * 
+FROM produtos 
+WHERE nome LIKE 'croissant%' OR nome LIKE 'lasanha%'
+;
+
+-- 14. Remover dados existentes (colaborador Pedro Almeida	desligado, cliente Paulo Sousa que pediu exclusão dos dados)
+
+DELETE FROM colaboradores WHERE id = 3
+;
+UPDATE clientes SET 
+    nome = "Removido", 
+    telefone = "Removido", 
+    email = "Sem email",
+    endereco = "Sem endereço"
+    WHERE id = 27
+;
