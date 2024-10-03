@@ -35,15 +35,19 @@ LIMIT 5
 SELECT 
     Nome_Disciplina
     ,Descricao
+
 FROM Disciplinas
-WHERE (Descricao IS NULL OR Descricao = "")
+WHERE 1=1
+    AND (Descricao IS NULL OR Descricao = "")
 ;
 
 -- 3.Liste os funcionários (Professores) cujo nome começa com 'A' e termina com 's' na tabela funcionarios.
 
 SELECT 
     Nome_Professor
+
 FROM Professores
+
 WHERE TRUE
     AND SUBSTR(Nome_Professor, 1, 1) = "A"
     AND SUBSTR(Nome_Professor, -1, INSTR(Nome_Professor," ") -1) = "s"
@@ -55,9 +59,11 @@ SELECT
     a.Nome_Disciplina
     ,b.ID_Disciplina
     ,AVG(b.Nota) AS Media_Notas
+
 FROM Notas b
     LEFT JOIN Disciplinas a
         ON b.ID_Disciplina = a.ID_Disciplina
+
 GROUP BY b.ID_Disciplina, a.Nome_Disciplina
 HAVING Media_Notas > 5
 ;
@@ -65,9 +71,10 @@ HAVING Media_Notas > 5
 -- 5.Selecione todos os clientes da tabela clientes (alunos) e concatene o primeiro e o último nome, além de calcular o comprimento total do nome completo.
 
 SELECT 
-    SUBSTR(Nome_Aluno, 1, INSTR(Nome_Aluno," ")) AS Primeiro_Nome
-    ,SUBSTR(Nome_Aluno, INSTR(Nome_Aluno," ") +1) AS Segundo_Nome
-    ,LENGTH(REPLACE(Nome_Aluno, " ", "")) AS Comprimento_Nome
+    SUBSTR(Nome_Aluno, 1, INSTR(Nome_Aluno," "))        AS Primeiro_Nome
+    ,SUBSTR(Nome_Aluno, INSTR(Nome_Aluno," ") +1)       AS Segundo_Nome
+    ,LENGTH(REPLACE(Nome_Aluno, " ", ""))               AS Comprimento_Nome
+
 FROM Alunos
 ;
 
@@ -79,6 +86,7 @@ SELECT
     ,Data_Avaliacao_Julianday
     ,CURRENT_DATE AS Data_Atual
     ,CAST(JULIANDAY(CURRENT_DATE) - JULIANDAY(Data_Avaliacao_Julianday) AS INTEGER) AS Dias_Decorridos
+
 FROM Notas
 ;
 
@@ -87,10 +95,12 @@ FROM Notas
 SELECT
     b.Data_Avaliacao
     ,a.Nome_Disciplina
-    ,ROUND(b.Nota, 0) AS Nota
+    ,ROUND(b.Nota, 0)       AS Nota
+
 FROM Notas b
     LEFT JOIN Disciplinas a
         ON b.ID_Disciplina = a.ID_Disciplina
+
 GROUP BY b.Data_Avaliacao, a.Nome_Disciplina, b.Nota
 ORDER BY b.Data_Avaliacao DESC, Nota DESC
 ;
@@ -117,7 +127,9 @@ Base AS(
 )
 
 SELECT DISTINCT *
+
 FROM Base
+
 WHERE Data_Avaliacao > "2023-08-01"
 ;  
 
@@ -126,6 +138,7 @@ WHERE Data_Avaliacao > "2023-08-01"
 SELECT
     b.Data_Avaliacao
     ,a.Nome_Disciplina
+    ,c.Nome_Aluno
     ,b.Nota
     ,CASE  
         WHEN b.Nota <= 3 THEN "Ruim"
@@ -136,32 +149,46 @@ SELECT
         WHEN b.Nota >= 7 THEN "Aprovado"
         ELSE "Reprovado"
     END AS Aprovacao
+
 FROM Notas b
     LEFT JOIN Disciplinas a
         ON b.ID_Disciplina = a.ID_Disciplina
+
+    LEFT JOIN Alunos c
+        ON b.ID_Aluno = c.ID_Aluno
+
 ORDER BY b.Data_Avaliacao DESC, Nota DESC
 ;
 
 -- 10.Retornar a média de Notas dos Alunos em história.
 
 SELECT 
-    AVG(Nota) AS Nota_Media_Historia
+    AVG(Nota)   AS Nota_Media_Historia
+
 FROM Notas
-WHERE ID_Nota = 2
+
+WHERE TRUE  
+    AND ID_Nota = 2
 ;
 
 -- 11.Retornar as informações dos alunos cujo Nome começa com 'A'.
 
 SELECT *
+
 FROM Alunos
-WHERE SUBSTR(Nome_Aluno, 1, 1) = "A"
+
+WHERE TRUE 
+    AND SUBSTR(Nome_Aluno, 1, 1) = "A"
 ;
 
 -- 12.Buscar apenas os alunos que fazem aniversário em fevereiro.
 
 SELECT *
+
 FROM Alunos
-WHERE STRFTIME('%m', Data_Nascimento) = "02"
+
+WHERE TRUE 
+    AND STRFTIME('%m', Data_Nascimento) = "02"
 ;
 
 -- 13.Realizar uma consulta que calcula a idade dos Alunos.
@@ -170,6 +197,7 @@ SELECT
     Nome_Aluno
     ,Data_Nascimento
     ,CAST(((JULIANDAY(CURRENT_DATE) - JULIANDAY(Data_Nascimento)) /365.25) AS INTENGER) AS Idade_Aluno
+
 FROM Alunos
 ;
 
@@ -183,9 +211,11 @@ SELECT
         WHEN n.Nota >= 6 THEN "Aprovado"
         ELSE "Reprovado"
     END AS Aprovacao
+
 FROM Notas n
     LEFT JOIN Alunos a
         ON n.ID_Aluno = a.ID_Aluno
+    
     LEFT JOIN Disciplinas d 
         ON n.ID_Disciplina = d.ID_Disciplina
 ;
@@ -205,4 +235,67 @@ FROM Notas n
 
 GROUP BY Nome_Disciplina
 ORDER BY Nome_Disciplina
+;
+
+-- 16. Buscar o nome do professor e a turma que ele é orientador
+
+/*
+INSERT INTO Turma_Alunos (ID_Turma, ID_Aluno) VALUES 
+(1, 11),(2, 12),(3, 13),(4, 14),(5, 15),(1, 16),(2, 17),(3, 18)
+;
+*/
+
+SELECT
+    t.Nome_Turma
+    ,p.Nome_Professor    AS Nome_Professor_Orientador
+    ,ta.Qtd_Alunos
+
+FROM Turmas t
+    LEFT JOIN Professores p
+        ON t.ID_Professor_Orientador = p.ID_Professor
+    
+    LEFT JOIN(
+        SELECT
+            ID_Turma
+            ,COUNT(ID_Turma)    AS Qtd_Alunos
+
+        FROM Turma_Alunos
+
+        GROUP BY 1
+     ) ta
+        ON t.ID_Turma = ta.ID_Turma
+;
+
+-- 17. Listar os Alunos e as disciplinas em que estão matriculados
+
+WITH
+turma_disciplina AS(
+    SELECT *
+
+    FROM Turma_Alunos
+        LEFT JOIN Turma_Disciplinas
+            USING(ID_Turma)
+)
+
+SELECT
+    a.ID_Aluno
+    ,a.Nome_Aluno
+    ,td.ID_Disciplina
+    ,td.Nome_Disciplina
+    ,td.Carga_Horaria
+    ,td.Descricao
+
+FROM Alunos a
+    LEFT JOIN(
+        SELECT 
+            td.*
+            ,d.Nome_Disciplina
+            ,d.Carga_Horaria
+            ,d.Descricao
+        
+        FROM turma_disciplina td
+            LEFT JOIN Disciplinas d
+                USING(ID_Disciplina)
+     ) td
+        USING(ID_Aluno)
 ;

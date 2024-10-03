@@ -457,3 +457,245 @@ UPDATE clientes SET
     endereco = "Sem endereço"
     WHERE id = 27
 ;
+
+-- 15. Traga todos os dados da cliente Maria Silva.
+
+SELECT 
+    c.id
+    ,c.nome
+    ,t.ddd
+        || SUBSTR(t.telefone, -4, -5) || "-"
+        || SUBSTR(t.telefone, -4)               AS telefone
+    ,c.email
+    ,c.endereco
+    ,p.status
+    ,p.qtd_pedidos
+    ,ultimo_pedido
+
+FROM clientes c
+    LEFT JOIN arruma_telefones t
+        USING(id)
+
+    LEFT JOIN(
+        SELECT 
+            idcliente
+            ,status
+            ,COUNT(id)              AS qtd_pedidos
+            ,MAX(datahorapedido)    AS ultimo_pedido
+
+        FROM pedidos
+
+        GROUP BY 1,2
+    ) p
+        ON c.id = p.idcliente
+
+WHERE TRUE
+    AND nome = "Maria Silva"
+
+ORDER BY status
+;
+
+-- 16. Retorne todos os produtos onde o preço seja maior que 10 e menor que 15.
+
+SELECT
+    p.id
+    ,p.nome
+    ,p.descricao
+    ,p.preco 
+
+FROM produtos p
+
+WHERE 1=1
+    AND preco > 10 
+    AND preco < 15
+
+ORDER BY 1
+;
+
+-- 17. Busque o nome e cargo dos colaboradores que foram contratados entre 2022-01-01 e 2022-06-31.
+
+SELECT
+    c.id
+    ,c.nome
+    ,c.cargo
+    ,c.datacontratacao
+
+FROM colaboradores c
+
+WHERE 1=1
+    AND c.DataContratacao BETWEEN "2022-01-01" AND "2022-06-31"
+;
+
+-- 18. Recupere o nome do cliente que fez o primeiro pedido.
+
+SELECT
+    c.id    AS id_cliente
+    ,c.nome
+    ,p.id   AS id_pedido
+    ,p.datahorapedido
+    ,p.status
+
+FROM pedidos p
+    LEFT JOIN clientes c
+        ON p.idcliente = c.id
+
+WHERE 1=1
+    AND p.id = 1
+;
+
+-- 19. Liste os produtos que nunca foram pedidos.
+
+/*
+INSERT INTO produtos (id, nome, descricao, preco, categoria) VALUES 
+(32, "Pastel de queijo", "Pastel frito tradicional de feira sabor queijo", 7, "Almoço"),
+(33, "Pastel de carne", "Pastel frito tradicional de feira sabor carne", 7, "Almoço")
+;
+*/
+
+SELECT 
+    p.*
+
+FROM produtos p
+    LEFT JOIN (
+        SELECT DISTINCT
+            ip.idproduto
+            
+        FROM itenspedidos ip
+    ) ip
+        ON ip.idproduto = p.id
+
+WHERE 1=1
+    AND ip.idproduto IS NULL
+;
+
+-- 20. Recupere os nomes dos produtos que estão em menos de 15 pedidos.
+
+SELECT 
+    p.id
+    ,p.nome
+    ,p.categoria
+    ,p.descricao
+    ,"R$ " || PRINTF('%.2f', p.preco)                      AS preco
+    ,ip.qt_pedidos
+    ,"R$ " || PRINTF('%.2f', (ip.qt_pedidos * p.preco))     AS faturamento_bruto
+
+FROM produtos p
+    LEFT JOIN (
+        SELECT DISTINCT
+            idproduto
+            ,COUNT(DISTINCT idpedido)   AS qt_pedidos
+
+        FROM itenspedidos
+
+        GROUP BY 1
+    ) ip
+        ON ip.idproduto = p.id
+
+WHERE 1=1
+    AND ip.qt_pedidos >= 15
+
+ORDER BY qt_pedidos DESC
+;
+
+-- 21. Liste os produtos e o ID do pedido que foram realizados pelo cliente "Pedro Alves" ou pela cliente "Ana Rodrigues".
+
+WITH
+base_clientes AS(
+    SELECT
+        c.id
+        ,c.nome
+
+    FROM clientes c
+
+    WHERE TRUE
+        AND nome IN ("Pedro Alves", "Ana Rodrigues") 
+),
+
+base_pedidos AS(
+    SELECT
+        p.id        AS id_pedido
+        ,bc.id      AS id_cliente
+        ,bc.nome    AS cliente
+
+    FROM base_clientes bc
+
+        LEFT JOIN pedidos p
+            ON bc.id = p.idcliente
+),
+
+base_produtos AS(
+    SELECT
+        bp.*
+        ,ip.idproduto                                                   AS id_produto
+        ,ip.quantidade
+        ,"R$ " || PRINTF('%.2f', ip.precounitario)                      AS preco_unitario
+        ,"R$ " || PRINTF('%.2f', (ip.quantidade * ip.precounitario))    AS faturamento_bruto
+
+    FROM base_pedidos bp
+        LEFT JOIN itenspedidos ip
+            ON bp.id_pedido = ip.idpedido
+)
+
+SELECT 
+    CAST(bp.id_pedido AS INTENGER)      AS id_pedido
+    ,bp.id_cliente
+    ,bp.cliente
+    ,CAST(bp.id_produto AS INTENGER)    AS id_produto
+    ,p.nome                             AS produto
+    ,bp.quantidade
+    ,bp.preco_unitario
+    ,bp.faturamento_bruto
+
+FROM base_produtos bp
+    LEFT JOIN produtos p
+        ON p.id = bp.id_produto
+
+ORDER BY 1, 3, 4
+;
+
+-- 22. Recupere o nome e o ID do cliente que mais comprou em valor.
+
+WITH
+base_pedidos AS(
+    SELECT
+        idpedido
+        --,"R$ " || PRINTF('%.2f', SUM(faturamento_bruto))   AS faturamento_bruto
+        ,SUM(faturamento_bruto)   AS faturamento_bruto
+
+    FROM(
+        SELECT
+            CAST(ip.idpedido AS INTENGER)       AS idpedido
+            ,ip.quantidade
+            ,ip.precounitario
+            ,ip.quantidade * ip.precounitario    AS faturamento_bruto
+
+        FROM itenspedidos ip
+
+        GROUP BY 1,2,3
+    )
+
+    GROUP BY 1
+)
+SELECT
+    id_cliente
+    ,cliente
+    ,"R$ " || PRINTF('%.2f', faturamento_bruto)     AS faturamento_bruto
+
+FROM(
+    SELECT
+        p.idcliente                     AS id_cliente
+        ,c.nome                         AS cliente
+        ,SUM(bp.faturamento_bruto)      AS faturamento_bruto
+
+    FROM pedidos p
+        LEFT JOIN base_pedidos bp
+            ON bp.idpedido = p.id
+
+        LEFT JOIN clientes c
+            ON c.id = p.idcliente
+
+    GROUP BY 1
+    ORDER BY 3 DESC, 1 ASC
+)
+LIMIT 1
+;
