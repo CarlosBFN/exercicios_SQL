@@ -19,7 +19,7 @@ Palavras-chave: SQL; JOIN; WITH; VIEW; TRIGGER; HAVING; filtros; análise
 <br><br>
 
 2. [Base 1](data/base_1_escola.db)   - Base de dados simulada de registros escolares
-3. [Exercício 1](exercicio_1_alura_(base_1_escola).sql) - Queries de resolução dos exercícios com a **Base 1**
+3. [Exercício 1](exercicio_1(base_1_escola).sql) - Queries de resolução dos exercícios com a **Base 1**
 <br> <br>
 
 5. [Base 2](data/base_2_empresa.db)  - Base de dados simulada de registros de uma empresa
@@ -27,7 +27,7 @@ Palavras-chave: SQL; JOIN; WITH; VIEW; TRIGGER; HAVING; filtros; análise
 7. [Base 2 - Preenchimento das tabelas 1](data/base_2_empresa_(preenchimento_das_tabelas_1).sql) - Query para preenchimento da **Base 2**
 8. [Base 2 - Preenchimento das tabelas 2](data/base_2_empresa_(preenchimento_das_tabelas_2_(itens_de_pedido)).csv)    - Arquivo para preenchimento da **Base 2**
 9. [Base 2 - Preenchimento das tabelas 3](data/base_2_empresa_(preenchimento_das_tabelas_3_(pedidos)).csv)    - Arquivo para preenchimento da **Base 2**
-10. [Exercício 2](exercicio_2_alura_(base_2_empresa).sql)   - Queries de resolução dos exercícios com **Base 2**
+10. [Exercício 2](exercicio_2(base_2_empresa).sql)   - Queries de resolução dos exercícios com **Base 2**
 
 ### Estrutura do projeto
 ```
